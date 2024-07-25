@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -68,7 +69,7 @@ fun BizCardScreen(modifier: Modifier) {
                 ProfileImage(
                     modifier = Modifier
                         .size(160.dp)
-                        .padding(16 .dp)
+                        .padding(16.dp)
                 )
                 HorizontalDividerWithSpacer(space = 20.dp)
                 InfoSection()
@@ -108,10 +109,22 @@ fun Content() {
                 .padding(3.dp)
                 .fillMaxWidth()
                 .fillMaxHeight(),
+            color = Color.White,
             shape = RoundedCornerShape(corner = CornerSize(size = 6.dp)),
             border = BorderStroke(width = 2.dp, color = Color.LightGray)
         ) {
-            Portfolio(data = listOf("Project 1", "Project 2", "Project 3"))
+            PortfolioList(
+                data = listOf(
+                    "Project 1",
+                    "Project 2",
+                    "Project 3",
+                    "Project 4",
+                    "Project 5",
+                    "Project 6",
+                    "Project 7",
+                    "Project 8",
+                )
+            )
         }
     }
 }
@@ -124,23 +137,38 @@ fun Content() {
  * LazyColumn will know how to recycle the views as they are being displayed
  */
 @Composable
-fun Portfolio(data: List<String>) {
+fun PortfolioList(data: List<String>) {
     LazyColumn {
-        items(data) {
+        items(data) { project ->
             Card(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
                 shape = RectangleShape,
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
-                Row {
-                    ProfileImage(
-                        modifier = Modifier
-                            .size(80.dp)
-                            .padding(8.dp)
-                    )
-                }
+                RowContent(project)
             }
+        }
+    }
+}
+
+@Composable
+private fun RowContent(project: String) {
+    Row {
+        ProfileImage(
+            modifier = Modifier
+                .size(80.dp)
+                .padding(8.dp)
+        )
+        Column(
+            modifier = Modifier
+                .padding(7.dp)
+                .align(alignment = Alignment.CenterVertically)
+        ) {
+            Text(text = project, fontWeight = FontWeight.Bold)
+            Text(text = "A great project", style = MaterialTheme.typography.bodySmall)
         }
     }
 }
@@ -165,7 +193,7 @@ private fun InfoSection() {
 }
 
 @Composable
-private fun HorizontalDividerWithSpacer(space: Dp) {
+private fun HorizontalDividerWithSpacer(space: Dp = 0.dp) {
     Spacer(modifier = Modifier.height(space))
     HorizontalDivider(
         color = DividerDefaults.color,
