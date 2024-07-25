@@ -24,4 +24,16 @@ fun typesInKotlin() {
     val myLong: Long = 128
 
     println("$myInt")
+
+    /**
+     * This method demonstrates the integer wraparound behavior in Kotlin.
+     * When an integer value exceeds the maximum value representable by an Int,
+     * the value "wraps around" to the opposite end of the range.
+     *
+     * For example, the maximum value representable by an Int is Int.MAX_VALUE (2147483647).
+     * If you try to add 1 to this value,you will get Int.MIN_VALUE (-2147483648).
+     */
+    val maxValue = Int.MAX_VALUE
+    @Suppress("INTEGER_OVERFLOW")
+    println(maxValue + 1) // Output: -2147483648
 }
