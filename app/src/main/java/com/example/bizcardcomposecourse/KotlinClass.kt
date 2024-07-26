@@ -2,6 +2,7 @@ package com.example.bizcardcomposecourse
 
 fun main() {
     typesInKotlin()
+    lambdaExpression()
 }
 
 fun typesInKotlin() {
@@ -50,4 +51,53 @@ fun typesInKotlin() {
     val maxValue = Int.MAX_VALUE
     @Suppress("INTEGER_OVERFLOW")
     println(maxValue + 1) // Output: -2147483648
+}
+
+fun lambdaExpression() {
+    println(sum(2, 2))
+    println(sumLambda(2, 2))
+    name("Name")
+
+    enhanceMessage("Hello") { sum(2, 2) }
+    enhanceMessage("Hello") { sumLambda(4, 2) }
+    /**
+     * As you can see, this method executes the body function without checking whether a function is used within the body.
+     * The return type of the function is the only factor considered; in this case, 12 is an Int, so it's acceptable.
+     */
+    enhanceMessage("Hello") { 12 }
+
+    enhanceMessageWithInputParameterInLambda("Hello") { stringParam ->
+        println("enhanceMessageWithInputParameterInLambda")
+        println(stringParam)
+        12 // or sumLambda(4, 2)
+    }
+}
+
+fun sum(a: Int, b: Int): Int {
+    return a + b
+}
+
+/**
+ * A lambda expression is a shorter way to define a function.
+ */
+// val lambdaName: (InputType) -> ReturnType = { arguments: InputType -> body }
+val sumLambda: (Int, Int) -> Int = { a, b -> a + b }
+val name: (String) -> Unit = { println(it) }
+
+/**
+ * Trailing lambda
+ * You can pass functions parameters to a function
+ *
+ * According to Kotlin convention, if the last parameter of a function is a function, you can place the lambda outside the parenthesis
+ * (e.g.: enhanceMessage("Hello") { sum(2, 2) })
+ */
+fun enhanceMessage(message: String, functionAsParameter: () -> Int) {
+    println("$message ${functionAsParameter()}")
+}
+
+fun enhanceMessageWithInputParameterInLambda(
+    message: String,
+    functionAsParameter: (String) -> Int
+) {
+    println("$message ${functionAsParameter("String Param")}") //this println will be executed only when functionAsParameter returns a value
 }
