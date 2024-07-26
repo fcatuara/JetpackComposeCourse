@@ -9,29 +9,59 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.bizcardcomposecourse.ui.theme.BizCardComposeCourseTheme
+import com.example.bizcardcomposecourse.routes.DollarCounterScreen
+import com.example.bizcardcomposecourse.routes.PortfolioScreen
+import com.example.bizcardcomposecourse.routes.TipScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BizCardComposeCourseTheme {
-                MyApp()
+            ComposeCourseApp {
+                //PortfolioApp()
+                //TipApp()
+                DollarCounterApp()
             }
         }
     }
 }
 
 @Composable
-fun MyApp() {
+fun TipApp() {
     Scaffold(content = { padding ->
-        BizCardScreen(modifier = Modifier.padding(padding))
+        TipScreen(modifier = Modifier.padding(padding))
+    })
+}
+
+//@Preview(showBackground = true)
+@Composable
+fun TipAppPreview() {
+    TipApp()
+}
+
+@Composable
+fun PortfolioApp() {
+    Scaffold(content = { padding ->
+        PortfolioScreen(modifier = Modifier.padding(padding))
+    })
+}
+
+//@Preview(showBackground = true)
+@Composable
+fun PortfolioAppPreview() {
+    PortfolioApp()
+}
+
+@Composable
+fun DollarCounterApp() {
+    Scaffold(content = { padding ->
+        DollarCounterScreen(modifier = Modifier.padding(padding))
     })
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MyAppPreview() {
-    MyApp()
+fun DollarCounterAppPreview() {
+    DollarCounterApp()
 }

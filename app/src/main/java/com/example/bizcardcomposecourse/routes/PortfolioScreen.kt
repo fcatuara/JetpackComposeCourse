@@ -1,4 +1,4 @@
-package com.example.bizcardcomposecourse
+package com.example.bizcardcomposecourse.routes
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -38,9 +38,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.bizcardcomposecourse.R
 
 @Composable
-fun BizCardScreen(modifier: Modifier) {
+fun PortfolioScreen(modifier: Modifier) {
     val buttonClickedState = remember {
         mutableStateOf(false)
     }
@@ -95,7 +96,7 @@ fun BizCardScreen(modifier: Modifier) {
  * Surface: Provides predefined material styles such as background color, elevation, rounded corners, etc.
  * It is ideal for creating styled components according to the Material Design system.
  */
-@Preview
+
 @Composable
 fun Content() {
     Box(
@@ -221,6 +222,12 @@ private fun ProfileImage(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun BizCardScreenPreview() {
-    BizCardScreen(modifier = Modifier.padding(0.dp))
+fun PortfolioScreenPreview() {
+    PortfolioScreen(modifier = Modifier.padding(4.dp))
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ContentPreview() {
+    Content()
 }

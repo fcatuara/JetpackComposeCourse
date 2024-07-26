@@ -1,4 +1,4 @@
-package com.example.bizcardcomposecourse
+package com.example.bizcardcomposecourse.kotlinexercise
 
 fun main() {
     typesInKotlin()
