@@ -3,6 +3,7 @@ package com.example.bizcardcomposecourse
 fun main() {
     typesInKotlin()
     lambdaExpression()
+    genericsInKotlin()
 }
 
 fun typesInKotlin() {
@@ -100,4 +101,23 @@ fun enhanceMessageWithInputParameterInLambda(
     functionAsParameter: (String) -> Int
 ) {
     println("$message ${functionAsParameter("String Param")}") //this println will be executed only when functionAsParameter returns a value
+}
+
+
+fun genericsInKotlin() {
+    val listOfNumbers = listOf(1, 2, 3, 4, 5)
+    val listOfStrings = listOf("One", "Two", "Three", "Four", "Five")
+
+    val finder = Finder(listOfNumbers)
+    finder.findItem(2) {
+        println("genericsInKotlin() $it")
+    }
+}
+
+class Finder<T>(private val list: List<T>) {
+
+    fun findItem(element: T, foundItem: (element: T?) -> Unit) {
+        val itemFoundList = list.filter { it == element }
+        foundItem(itemFoundList.firstOrNull())
+    }
 }
