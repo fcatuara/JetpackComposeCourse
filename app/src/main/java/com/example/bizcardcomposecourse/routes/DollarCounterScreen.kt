@@ -56,7 +56,6 @@ fun DollarCounterScreen(modifier: Modifier) {
 fun CircleCardScreen() {
     /**first implementation that doesn't work*/
     //var moneyCounter = 0
-
     var moneyCounter by remember { mutableIntStateOf(0) }
     /**
      * Value Preservation: `remember` is used to instruct Compose to retain an object or value across recompositions.
@@ -96,43 +95,6 @@ fun CircleCardScreen() {
         Box(
             contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
         ) {
-            /**
-             * Clicking the button you won't see the moneyCounter value updated:
-             * that's because whenever we want to change something inside of a
-             * composable function (in this case a Text), we need to redraw that composable
-             *
-             * That's the difference between the imperative approach and the declarative
-             * approach: In the declarative approach we are passing data through the composable
-             * function, and the composable function reacts to that data
-             *
-             * So how we make this text reacts to that data? (which in this case means to redraw itself)
-             * We are talking about Recomposition.
-             */
-            /**
-             * Clicking the button you won't see the moneyCounter value updated:
-             * that's because whenever we want to change something inside of a
-             * composable function (in this case a Text), we need to redraw that composable
-             *
-             * That's the difference between the imperative approach and the declarative
-             * approach: In the declarative approach we are passing data through the composable
-             * function, and the composable function reacts to that data
-             *
-             * So how we make this text reacts to that data? (which in this case means to redraw itself)
-             * We are talking about Recomposition.
-             */
-            /**
-             * Clicking the button you won't see the moneyCounter value updated:
-             * that's because whenever we want to change something inside of a
-             * composable function (in this case a Text), we need to redraw that composable
-             *
-             * That's the difference between the imperative approach and the declarative
-             * approach: In the declarative approach we are passing data through the composable
-             * function, and the composable function reacts to that data
-             *
-             * So how we make this text reacts to that data? (which in this case means to redraw itself)
-             * We are talking about Recomposition.
-             */
-
             /**
              * Clicking the button you won't see the moneyCounter value updated:
              * that's because whenever we want to change something inside of a

@@ -20,8 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeCourseApp {
                 //PortfolioApp()
-                //TipApp()
-                DollarCounterApp()
+                TipApp()
+                //DollarCounterApp()
             }
         }
     }
@@ -34,7 +34,7 @@ fun TipApp() {
     })
 }
 
-//@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun TipAppPreview() {
     TipApp()
@@ -60,7 +60,7 @@ fun DollarCounterApp() {
     })
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun DollarCounterAppPreview() {
     DollarCounterApp()
