@@ -1,7 +1,6 @@
 package com.example.bizcardcomposecourse.routes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,9 +18,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bizcardcomposecourse.components.InputField
@@ -86,17 +88,22 @@ fun MainContent(modifier: Modifier = Modifier) {
     BillForm(modifier = modifier)
 }
 
+const val MIN_DIVISOR = 2
 
 @Composable
 fun BillForm(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit = {},
+    forceShowContent: Boolean = false
 ) {
     val totalBillState = remember { mutableStateOf("") }
     val hasInputFieldValue = remember(totalBillState.value) {
         totalBillState.value.trim().isNotEmpty()
     }
+    val splitValue = remember { mutableStateOf(MIN_DIVISOR.toString()) }
+    val sliderPositionState = remember { mutableFloatStateOf(0f) }
     val keyboardController = LocalSoftwareKeyboardController.current
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -118,20 +125,63 @@ fun BillForm(
                     onValueChange(totalBillState.value.trim())
                     keyboardController?.hide()
                 })
-            if (hasInputFieldValue) {
+            if (hasInputFieldValue || forceShowContent) {
                 Row(
-                    modifier = Modifier.padding(3.dp),
-                    horizontalArrangement = Arrangement.Start
+                    modifier = Modifier
+                        .padding(3.dp),
+                    horizontalArrangement = Arrangement.Start,
                 ) {
                     Text(
                         text = "Split",
+                        textAlign = TextAlign.Center,
                         modifier = Modifier.align(alignment = Alignment.CenterVertically)
                     )
                     Spacer(modifier = Modifier.width(100.dp))
                     Row {
-                        RoundIconButton(imageVector = Icons.Default.Remove, onClick = { })
-                        RoundIconButton(imageVector = Icons.Default.Add, onClick = { })
+                        RoundIconButton(imageVector = Icons.Default.Remove, onClick = {
+                            if (splitValue.value.toInt() > MIN_DIVISOR)
+                                splitValue.value = (splitValue.value.toInt() - 1).toString()
+                        })
+                        Text(
+                            text = splitValue.value,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterVertically)
+                                .padding(start = 9.dp, end = 9.dp)
+                        )
+                        RoundIconButton(imageVector = Icons.Default.Add, onClick = {
+                            splitValue.value = (splitValue.value.toInt() + 1).toString()
+                        })
                     }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 3.dp, vertical = 12.dp)
+                        .fillMaxWidth(),
+                ) {
+                    Text(
+                        text = "Tip",
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterVertically)
+                            .weight(1f)
+                    )
+                    Text(
+                        text = "Tip",
+                        modifier = Modifier
+                            .align(alignment = Alignment.CenterVertically)
+                            .weight(1f)
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "33%")
+                    Slider(value = sliderPositionState.floatValue, onValueChange = { newValue ->
+                        sliderPositionState.floatValue = newValue
+                        println("slider position: $newValue")
+                    })
                 }
             } else {
                 Box {}
@@ -142,8 +192,8 @@ fun BillForm(
 
 @Preview(showBackground = true)
 @Composable
-fun MainContentPreview() {
-    MainContent()
+fun BillFormPreview() {
+    BillForm(forceShowContent = true)
 }
 
 @Preview(showBackground = true)
