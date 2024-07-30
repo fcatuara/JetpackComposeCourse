@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bizcardcomposecourse.components.InputField
 import com.example.bizcardcomposecourse.widgets.RoundIconButton
+import kotlin.math.roundToInt
 
 @Composable
 fun TipScreen(modifier: Modifier = Modifier) {
@@ -177,11 +178,19 @@ fun BillForm(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "33%")
-                    Slider(value = sliderPositionState.floatValue, onValueChange = { newValue ->
-                        sliderPositionState.floatValue = newValue
-                        println("slider position: $newValue")
-                    })
+                    val sliderValue = sliderPositionState.floatValue
+
+                    Text(text = "${(sliderValue * 100).roundToInt()}%")
+                    Slider(
+                        value = sliderValue, onValueChange = { newValue ->
+                            sliderPositionState.floatValue = newValue
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        steps = 4,
+                        onValueChangeFinished = {
+                            println("slider finished")
+                        }
+                    )
                 }
             } else {
                 Box {}
