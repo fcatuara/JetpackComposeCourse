@@ -22,6 +22,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,13 +39,19 @@ import com.example.bizcardcomposecourse.components.InputField
 import com.example.bizcardcomposecourse.widgets.RoundIconButton
 import kotlin.math.roundToInt
 
+const val MIN_DIVISOR = 1
+
 @Composable
 fun TipScreen(modifier: Modifier = Modifier) {
+    val totalPerPersonState = remember { mutableDoubleStateOf(0.0) }
     Column(
         modifier = modifier.padding(18.dp),
     ) {
-        TopHeader(modifier = modifier)
-        MainContent()
+        TopHeader(modifier = modifier,totalPerPersonState.doubleValue)
+        BillForm(modifier = modifier, onValueChange = {
+            println("onValueChange: $it")
+            totalPerPersonState.doubleValue = it
+        })
     }
 }
 
@@ -76,33 +83,20 @@ fun TopHeader(modifier: Modifier = Modifier, totalPerPerson: Double = 0.0) {
     }
 }
 
-
-/**
- * In an experiment using delegation without a state flow, similar results were
- * achieved, but a callback was required in the InputField composable to update
- * totalBillState and trigger the recomposition of the MainContent.
- *
- * e.g: var totalBillState by remember { mutableStateOf("") } (that returns an Int and not a state)
- */
-@Composable
-fun MainContent(modifier: Modifier = Modifier) {
-    BillForm(modifier = modifier)
-}
-
-const val MIN_DIVISOR = 2
-
 @Composable
 fun BillForm(
     modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit = {},
+    onValueChange: (Double) -> Unit = {},
     forceShowContent: Boolean = false
 ) {
     val totalBillState = remember { mutableStateOf("") }
-    val hasInputFieldValue = remember(totalBillState.value) {
-        totalBillState.value.trim().isNotEmpty()
-    }
-    val splitValue = remember { mutableStateOf(MIN_DIVISOR.toString()) }
+    val hasInputFieldValue = totalBillState.value.trim().isNotEmpty()
+
+    val splitState = remember { mutableStateOf(MIN_DIVISOR.toString()) }
     val sliderPositionState = remember { mutableFloatStateOf(0f) }
+    val tipAmountState = remember { mutableDoubleStateOf(0.0) }
+
+    val tipPercentage = sliderPositionState.floatValue.roundToInt()
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Surface(
@@ -112,6 +106,7 @@ fun BillForm(
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
+        println("recompose surface")
         Column(
             modifier = Modifier.padding(6.dp),
             verticalArrangement = Arrangement.Top,
@@ -123,13 +118,16 @@ fun BillForm(
                 isSingleLine = true,
                 onAction = KeyboardActions {
                     if (!hasInputFieldValue) return@KeyboardActions
-                    onValueChange(totalBillState.value.trim())
+                    onValueChange(totalBillState.value.trim().toDouble())
+                    /*totalPerPersonState.doubleValue = calculateTotalPerPerson(
+                        splitBy = splitState.value.toInt(),
+                        totalBill = totalBillState.value.toDouble()
+                    )*/
                     keyboardController?.hide()
                 })
             if (hasInputFieldValue || forceShowContent) {
                 Row(
-                    modifier = Modifier
-                        .padding(3.dp),
+                    modifier = Modifier.padding(3.dp),
                     horizontalArrangement = Arrangement.Start,
                 ) {
                     Text(
@@ -140,17 +138,22 @@ fun BillForm(
                     Spacer(modifier = Modifier.width(100.dp))
                     Row {
                         RoundIconButton(imageVector = Icons.Default.Remove, onClick = {
-                            if (splitValue.value.toInt() > MIN_DIVISOR)
-                                splitValue.value = (splitValue.value.toInt() - 1).toString()
+                            if (splitState.value.toInt() > MIN_DIVISOR) splitState.value =
+                                (splitState.value.toInt() - 1).toString()
                         })
                         Text(
-                            text = splitValue.value,
+                            text = splitState.value,
                             modifier = Modifier
                                 .align(alignment = Alignment.CenterVertically)
                                 .padding(start = 9.dp, end = 9.dp)
                         )
                         RoundIconButton(imageVector = Icons.Default.Add, onClick = {
-                            splitValue.value = (splitValue.value.toInt() + 1).toString()
+                            splitState.value = (splitState.value.toInt() + 1).toString()
+                            /*totalPerPersonState.value = calculateTotalPerPerson(
+                                splitBy = splitState.value.toInt() + 1,
+                                totalBill = 4,
+                                tipAmount = 6
+                            )*/
                         })
                     }
                 }
@@ -167,7 +170,7 @@ fun BillForm(
                             .weight(1f)
                     )
                     Text(
-                        text = "Tip",
+                        text = "$ ${tipAmountState.doubleValue}",
                         modifier = Modifier
                             .align(alignment = Alignment.CenterVertically)
                             .weight(1f)
@@ -178,19 +181,41 @@ fun BillForm(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    val sliderValue = sliderPositionState.floatValue
 
-                    Text(text = "${(sliderValue * 100).roundToInt()}%")
-                    Slider(
-                        value = sliderValue, onValueChange = { newValue ->
+                    /**
+                     * Example to understand recomposition:
+                     *
+                     * val sliderValue = remember { mutableFloatStateOf(0f) }
+                     * Text("Valore: ${sliderValue.floatValue}") // <-- depends on the sliderValue
+                     *
+                     * Slider(
+                     *     value = sliderValue.floatValue,
+                     *     onValueChange = { sliderValue.floatValue = it }
+                     * )
+                     *
+                     * 1. sliderValue.floatValue change inside the onValueChange lambda
+                     * 2. Text() depends on that value
+                     * 3. Compose recomposes Text()
+                     *
+                     */
+                    Text(text = "${tipPercentage}%")
+                    Slider(value = sliderPositionState.floatValue,
+                        onValueChange = { newValue ->
                             sliderPositionState.floatValue = newValue
+                            tipAmountState.doubleValue = calculateTotalTip(
+                                totalBillState.value.toDouble(), newValue.roundToInt()
+                            )
+                            /*totalPerPersonState.doubleValue = calculateTotalPerPerson(
+                                splitBy = splitState.value.toInt(),
+                                totalBill = totalBillState.value.toDouble(),
+                                tipPercentage = newValue.roundToInt()
+                            )*/
                         },
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        steps = 4,
+                        steps = 9,
+                        valueRange = 0f..100f,
                         onValueChangeFinished = {
-                            println("slider finished")
-                        }
-                    )
+                        })
                 }
             } else {
                 Box {}
@@ -198,6 +223,23 @@ fun BillForm(
         }
     }
 }
+
+fun calculateTotalTip(
+    totalBill: Double, tipPercentage: Int
+) = if (totalBill > 1.0 && totalBill.toString().isNotEmpty())
+    (totalBill * tipPercentage) / 100
+else 0.0
+
+fun calculateTotalPerPerson(
+    totalBill: Double,
+    splitBy: Int,
+    tipPercentage: Int
+): Double {
+    val bill = 
+        calculateTotalTip(totalBill = totalBill, tipPercentage = tipPercentage) + totalBill
+    return bill / splitBy
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -211,7 +253,7 @@ fun TopHeaderPreview() {
     TopHeader()
 }
 
-//@Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun TipScreenPreview() {
     TipScreen()
