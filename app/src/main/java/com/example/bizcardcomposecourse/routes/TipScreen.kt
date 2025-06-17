@@ -118,11 +118,11 @@ fun BillForm(
                 isSingleLine = true,
                 onAction = KeyboardActions {
                     if (!hasInputFieldValue) return@KeyboardActions
-                    onValueChange(totalBillState.value.trim().toDouble())
-                    /*totalPerPersonState.doubleValue = calculateTotalPerPerson(
+                    onValueChange(calculateTotalPerPerson(
                         splitBy = splitState.value.toInt(),
-                        totalBill = totalBillState.value.toDouble()
-                    )*/
+                        totalBill = totalBillState.value.toDouble(),
+                        tipPercentage = tipPercentage
+                    ))
                     keyboardController?.hide()
                 })
             if (hasInputFieldValue || forceShowContent) {
@@ -140,6 +140,12 @@ fun BillForm(
                         RoundIconButton(imageVector = Icons.Default.Remove, onClick = {
                             if (splitState.value.toInt() > MIN_DIVISOR) splitState.value =
                                 (splitState.value.toInt() - 1).toString()
+
+                            onValueChange(calculateTotalPerPerson(
+                                splitBy = splitState.value.toInt(),
+                                totalBill = totalBillState.value.toDouble(),
+                                tipPercentage = tipPercentage
+                            ))
                         })
                         Text(
                             text = splitState.value,
@@ -149,11 +155,11 @@ fun BillForm(
                         )
                         RoundIconButton(imageVector = Icons.Default.Add, onClick = {
                             splitState.value = (splitState.value.toInt() + 1).toString()
-                            /*totalPerPersonState.value = calculateTotalPerPerson(
-                                splitBy = splitState.value.toInt() + 1,
-                                totalBill = 4,
-                                tipAmount = 6
-                            )*/
+                            onValueChange(calculateTotalPerPerson(
+                                splitBy = splitState.value.toInt(),
+                                totalBill = totalBillState.value.toDouble(),
+                                tipPercentage = tipPercentage
+                            ))
                         })
                     }
                 }
@@ -205,11 +211,12 @@ fun BillForm(
                             tipAmountState.doubleValue = calculateTotalTip(
                                 totalBillState.value.toDouble(), newValue.roundToInt()
                             )
-                            /*totalPerPersonState.doubleValue = calculateTotalPerPerson(
+
+                            onValueChange(calculateTotalPerPerson(
                                 splitBy = splitState.value.toInt(),
                                 totalBill = totalBillState.value.toDouble(),
                                 tipPercentage = newValue.roundToInt()
-                            )*/
+                            ))
                         },
                         modifier = Modifier.padding(horizontal = 16.dp),
                         steps = 9,
@@ -235,9 +242,9 @@ fun calculateTotalPerPerson(
     splitBy: Int,
     tipPercentage: Int
 ): Double {
-    val bill = 
-        calculateTotalTip(totalBill = totalBill, tipPercentage = tipPercentage) + totalBill
-    return bill / splitBy
+    val totalTip = calculateTotalTip(totalBill = totalBill, tipPercentage = tipPercentage)
+    val amount = totalTip + totalBill
+    return amount / splitBy
 }
 
 
