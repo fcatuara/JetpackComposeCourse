@@ -83,6 +83,7 @@ fun TopHeader(modifier: Modifier = Modifier, totalPerPerson: Double = 0.0) {
     }
 }
 
+
 @Composable
 fun BillForm(
     modifier: Modifier = Modifier,
