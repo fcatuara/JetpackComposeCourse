@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -70,19 +69,24 @@ fun MovieContent(
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = movieList) {
-                MovieRow(movie = it)
+                MovieRow(movie = it) { movie ->
+                    println(movie)
+                }
             }
         }
     }
 }
 
 @Composable
-fun MovieRow(movie: String) {
+fun MovieRow(movie: String, onItemClicked: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .height(130.dp),
+            .height(130.dp)
+            .clickable {
+                onItemClicked(movie)
+            },
         shape = RoundedCornerShape(corner = CornerSize(12.dp)),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -99,7 +103,6 @@ fun MovieRow(movie: String) {
 
             ) {
                 Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Movie Image")
-
             }
             Text(text = movie)
         }
@@ -109,7 +112,9 @@ fun MovieRow(movie: String) {
 @Preview(showBackground = true)
 @Composable
 fun MovieRowPreview() {
-    MovieRow(movie = "The Matrix")
+    MovieRow(movie = "The Matrix") {
+
+    }
 }
 
 @Composable
