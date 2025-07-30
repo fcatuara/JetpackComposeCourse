@@ -41,7 +41,7 @@ fun HomeScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Magenta
+                    containerColor = Color.LightGray
                 ),
                 title = {
                     Text(text = "Movies")
