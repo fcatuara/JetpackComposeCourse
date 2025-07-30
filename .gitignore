@@ -8,7 +8,11 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/studiobot.xml
-.idea/
+/.idea/gradle.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/misc.xml
+/.idea/inspectionProfiles
+/.idea/runConfigurations.xml
 .DS_Store
 /build
 /captures
@@ -16,4 +20,5 @@
 .cxx
 local.properties
 **/other.xml
+
 
