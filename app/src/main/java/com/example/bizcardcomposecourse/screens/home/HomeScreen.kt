@@ -32,7 +32,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bizcardcomposecourse.model.Movie
+import com.example.bizcardcomposecourse.model.getMovies
 import com.example.bizcardcomposecourse.navigation.MovieScreens
+import com.example.bizcardcomposecourse.widgets.MovieRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +52,7 @@ fun HomeScreen(navController: NavController) {
             )
         }, content = { padding ->
             Box(modifier = Modifier.padding(padding)) {
-               MovieContent(navController)
+                MovieContent(navController)
             }
         })
 }
@@ -57,65 +60,20 @@ fun HomeScreen(navController: NavController) {
 @Composable
 fun MovieContent(
     navController: NavController,
-    movieList: List<String> = listOf(
-        "Avatar",
-        "300",
-        "Harry Potter",
-        "Cast Away",
-        "Interstellar",
-        "Coco",
-        "The Avengers",
-        "The Dark Knight",
-        "Happiness",
-        "Life"
-    )
+    movieList: List<Movie> = getMovies()
 ) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = movieList) {
-                MovieRow(movie = it) { movie ->
-                    navController.navigate(route = MovieScreens.MovieDetailScreen.name+"/$movie")
-                    println(MovieScreens.MovieDetailScreen.name+"/$movie")
+                MovieRow(movie = it) { movieId ->
+                    val movieIdRoute = MovieScreens.MovieDetailScreen.name + "/$movieId"
+                    println(movieIdRoute)
+                    navController.navigate(route = movieIdRoute)
                 }
             }
         }
     }
 }
 
-@Composable
-fun MovieRow(movie: String, onItemClicked: (String) -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .height(130.dp)
-            .clickable {
-                onItemClicked(movie)
-            },
-        shape = RoundedCornerShape(corner = CornerSize(12.dp)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Surface(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(100.dp),
-                shape = RectangleShape,
-                shadowElevation = 4.dp
 
-            ) {
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Movie Image")
-            }
-            Text(text = movie)
-        }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun MovieRowPreview() {
-    MovieRow(movie = "The Matrix") {}
-}
