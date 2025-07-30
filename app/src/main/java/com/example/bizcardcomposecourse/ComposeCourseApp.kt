@@ -27,21 +27,6 @@ fun ComposeCourseApp(content: @Composable () -> Unit) {
 @Composable
 fun MovieApp(content: @Composable () -> Unit) {
     ComposeCourseTheme {
-        //content()
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Magenta
-                    ),
-                    title = {
-                        Text(text = "Movies")
-                    },
-                )
-            }, content = { padding ->
-                Box(modifier = Modifier.padding(padding)) {
-                    content()
-                }
-            })
+        content()
     }
 }

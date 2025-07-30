@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.bizcardcomposecourse"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.bizcardcomposecourse"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.icons.extended)
+    implementation(libs.androidx.navigation.compose)
 
     //Ui
     implementation(libs.androidx.ui)
