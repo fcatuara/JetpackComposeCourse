@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -39,15 +41,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import coil3.compose.rememberAsyncImagePainter
 import coil3.request.ImageRequest
-import coil3.request.colorSpace
 import coil3.request.crossfade
 import com.example.bizcardcomposecourse.model.Movie
 import com.example.bizcardcomposecourse.model.getMovies
 
 @Composable
-fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
+fun MovieRow(movie: Movie?, onItemClicked: (String?) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -55,7 +55,7 @@ fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
             .padding(4.dp)
             .fillMaxWidth()
             .clickable {
-                onItemClicked(movie.imdbID)
+                onItemClicked(movie?.imdbID)
             },
         shape = RoundedCornerShape(corner = CornerSize(12.dp)),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -70,29 +70,31 @@ fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
             Surface(
                 modifier = Modifier
                     .padding(12.dp)
-                    .width(100.dp),
+                    .width(100.dp)
+                    .aspectRatio(2f/3f),
                 shape = RectangleShape,
                 shadowElevation = 4.dp,
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.images[0])
+                        .data(movie?.images[0])
                         .crossfade(true)
                         .build(),
                     contentDescription = "movie image",
+                    contentScale = ContentScale.Crop
                 )
             }
             Column(Modifier.padding(4.dp)) {
                 Text(
-                    text = movie.title,
+                    text = movie?.title.orEmpty(),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = "Director: ${movie.director}",
+                    text = "Director: ${movie?.director}",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "Released: ${movie.year}",
+                    text = "Released: ${movie?.year}",
                     style = MaterialTheme.typography.bodySmall
                 )
                 AnimatedVisibility(visible = expanded) {
@@ -114,7 +116,7 @@ fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
                                         fontWeight = FontWeight.Light,
                                     )
                                 ) {
-                                    append(movie.plot.toString())
+                                    append(movie?.plot.toString())
                                 }
                             },
                             modifier = Modifier.padding(6.dp),
@@ -124,11 +126,11 @@ fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
                         HorizontalDivider(modifier = Modifier.padding(2.dp))
 
                         Text(
-                            text = "Actors: ${movie.actors}",
+                            text = "Actors: ${movie?.actors}",
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            text = "Rating: ${movie.imdbRating}",
+                            text = "Rating: ${movie?.imdbRating}",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
