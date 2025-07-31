@@ -1,7 +1,9 @@
 package com.example.bizcardcomposecourse.widgets
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +16,7 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
 import com.example.bizcardcomposecourse.model.Movie
 import com.example.bizcardcomposecourse.model.getMovies
 
@@ -50,9 +55,28 @@ fun MovieRow(movie: Movie, onItemClicked: (String?) -> Unit) {
                 shadowElevation = 4.dp
 
             ) {
-                Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Movie Image")
+                AsyncImage(
+                    model = movie.images[0],
+                    contentDescription = "movie image",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                )
             }
-            Text(text = movie.title)
+            Column(Modifier.padding(4.dp)) {
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "Director: ${movie.director}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = "Released: ${movie.year}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
     }
 }

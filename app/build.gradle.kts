@@ -76,6 +76,7 @@ dependencies {
 
     //Image
     implementation(libs.coil.compose)
+    implementation(libs.coil.compose.network)
 
     //Testing
     testImplementation(libs.junit)
