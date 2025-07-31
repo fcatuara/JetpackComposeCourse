@@ -28,7 +28,7 @@ fun MovieDetailScreen(navController: NavHostController, movieData: String?) {
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.LightGray
+                containerColor = Color.White
             ), title = {
                 Text(text = "Movies")
             }, navigationIcon = {
