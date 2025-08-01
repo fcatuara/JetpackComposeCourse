@@ -4,16 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import com.example.bizcardcomposecourse.navigation.MovieNavigation
-import com.example.bizcardcomposecourse.routes.DollarCounterScreen
-import com.example.bizcardcomposecourse.routes.PortfolioScreen
-import com.example.bizcardcomposecourse.routes.TipScreen
+import com.example.bizcardcomposecourse.movieapp.navigation.MovieNavigation
+import com.example.bizcardcomposecourse.noteapp.navigation.NoteAppNavigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,53 +14,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         WindowCompat.setDecorFitsSystemWindows(window, true)
         setContent {
-            //ComposeCourseApp {
-            //PortfolioApp()
-            //TipApp()
-            //DollarCounterApp()
-            //}
-            MovieApp {
-                MovieNavigation()
+            ComposeCourseApp {
+                NoteAppNavigation()
             }
         }
     }
 }
 
-@Composable
-fun TipApp() {
-    Scaffold(content = { padding ->
-        TipScreen(modifier = Modifier.padding(padding))
-    })
-}
 
-//@Preview(showBackground = true)
-@Composable
-fun TipAppPreview() {
-    TipApp()
-}
 
-@Composable
-fun PortfolioApp() {
-    Scaffold(content = { padding ->
-        PortfolioScreen(modifier = Modifier.padding(padding))
-    })
-}
 
-//@Preview(showBackground = true)
-@Composable
-fun PortfolioAppPreview() {
-    PortfolioApp()
-}
 
-@Composable
-fun DollarCounterApp() {
-    Scaffold(content = { padding ->
-        DollarCounterScreen(modifier = Modifier.padding(padding))
-    })
-}
-
-//@Preview(showBackground = true)
-@Composable
-fun DollarCounterAppPreview() {
-    DollarCounterApp()
-}
