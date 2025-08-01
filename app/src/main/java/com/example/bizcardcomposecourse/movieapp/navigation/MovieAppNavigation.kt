@@ -10,7 +10,7 @@ import com.example.bizcardcomposecourse.movieapp.screens.detail.MovieDetailScree
 import com.example.bizcardcomposecourse.movieapp.screens.home.MovieHomeScreen
 
 @Composable
-fun MovieNavigation() {
+fun MovieAppNavigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = MovieScreens.HomeScreen.name) {
         composable(

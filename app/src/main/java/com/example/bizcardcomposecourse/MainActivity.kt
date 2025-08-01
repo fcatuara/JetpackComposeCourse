@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.WindowCompat
-import com.example.bizcardcomposecourse.movieapp.navigation.MovieNavigation
 import com.example.bizcardcomposecourse.noteapp.navigation.NoteAppNavigation
 
 class MainActivity : ComponentActivity() {
