@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.bizcardcomposecourse.movieapp.screens.detail.MovieDetailScreen
-import com.example.bizcardcomposecourse.movieapp.screens.home.MovieHomeScreen
+import com.example.bizcardcomposecourse.movieapp.screen.detail.MovieDetailScreen
+import com.example.bizcardcomposecourse.movieapp.screen.home.MovieHomeScreen
 
 @Composable
 fun MovieAppNavigation() {

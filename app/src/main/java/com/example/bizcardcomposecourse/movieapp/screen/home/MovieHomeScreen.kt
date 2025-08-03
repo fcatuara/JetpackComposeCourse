@@ -1,4 +1,4 @@
-package com.example.bizcardcomposecourse.movieapp.screens.home
+package com.example.bizcardcomposecourse.movieapp.screen.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

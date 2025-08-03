@@ -1,4 +1,4 @@
-package com.example.bizcardcomposecourse.movieapp.screens.detail
+package com.example.bizcardcomposecourse.movieapp.screen.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +38,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.bizcardcomposecourse.movieapp.model.Movie
 import com.example.bizcardcomposecourse.movieapp.model.getMovies
-import com.example.bizcardcomposecourse.movieapp.screens.home.MovieRow
+import com.example.bizcardcomposecourse.movieapp.screen.home.MovieRow
 import kotlin.collections.orEmpty
 
 @OptIn(ExperimentalMaterial3Api::class)
