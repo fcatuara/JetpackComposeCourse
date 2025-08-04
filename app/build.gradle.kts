@@ -46,6 +46,7 @@ android {
     buildFeatures {
         compose = true
     }
+    @Suppress("UnstableApiUsage")
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
@@ -67,6 +68,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.icons.extended)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.viewmodel.compose)
 
     //Ui
     implementation(libs.androidx.ui)

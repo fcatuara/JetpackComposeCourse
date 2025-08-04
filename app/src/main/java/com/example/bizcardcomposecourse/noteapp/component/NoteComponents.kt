@@ -1,7 +1,9 @@
 package com.example.bizcardcomposecourse.noteapp.component
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,4 +38,14 @@ fun NoteInputText(
         }),
         modifier = modifier
     )
+}
+
+@Composable
+fun NoteButton(
+    text: String, onClick: () -> Unit, enabled: Boolean = true
+) {
+    Button(onClick = { onClick.invoke() }, shape = CircleShape, enabled = enabled, content = {
+        Text(text = text)
+    })
+
 }
