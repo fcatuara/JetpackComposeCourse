@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.plugin.compose)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.dagger.hilt)
 }
 
 android {
@@ -79,6 +81,20 @@ dependencies {
     //Image
     implementation(libs.coil.compose)
     implementation(libs.coil.compose.network)
+
+    //Hilt/Dagger
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
+    implementation(libs.dagger.hilt.navigation.compose)
+
+    //Room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+    //Coroutines
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 
     //Testing
     testImplementation(libs.junit)
