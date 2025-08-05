@@ -25,6 +25,10 @@ android {
         }
     }
 
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -48,6 +52,7 @@ android {
     buildFeatures {
         compose = true
     }
+
     @Suppress("UnstableApiUsage")
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
@@ -95,6 +100,7 @@ dependencies {
     //Coroutines
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.coroutines.play.services)
 
     //Testing
     testImplementation(libs.junit)
