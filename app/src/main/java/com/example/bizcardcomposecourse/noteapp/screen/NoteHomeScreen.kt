@@ -36,12 +36,9 @@ import com.example.bizcardcomposecourse.noteapp.component.NoteButton
 import com.example.bizcardcomposecourse.noteapp.component.NoteInputText
 import com.example.bizcardcomposecourse.noteapp.data.NoteDataSource
 import com.example.bizcardcomposecourse.noteapp.model.Note
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Date
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -142,7 +139,7 @@ private fun isInputTextValueValid(value: String) = value.all { char ->
 private fun isSaveEnabled(vararg fields: String) = fields.all { it.isNotEmpty() }
 
 private fun formatDate(date: Date): String {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val formatter = DateTimeFormatter.ofPattern("EE, d MMM hh:mm a")
     return date.toInstant()
         .atZone(ZoneId.systemDefault())
         .format(formatter)

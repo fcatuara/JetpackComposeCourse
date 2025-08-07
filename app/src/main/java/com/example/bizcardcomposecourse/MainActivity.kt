@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,16 +32,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-@Composable
-fun NotesApp(viewModel: NoteViewModel = viewModel()) {
-    //val noteList = viewModel.getAllNotes()
-    val noteList = NoteDataSource().loadNotes()
-    NoteHomeScreen(
-        notes = noteList,
-        onAddNote = { /*viewModel.addNote(it)*/ },
-        onRemoveNote = { /*viewModel.removeNote(it)*/ }
-    )
-}
+    @Composable
+    fun NotesApp(viewModel: NoteViewModel) {
+        val noteList = viewModel.noteList.collectAsState().value
+        NoteHomeScreen(
+            notes = noteList,
+            onAddNote = { viewModel.addNote(it) },
+            onRemoveNote = { viewModel.removeNote(it) }
+        )
+    }
 
 
 @Preview(showBackground = true)
