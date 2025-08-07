@@ -36,7 +36,12 @@ import com.example.bizcardcomposecourse.noteapp.component.NoteButton
 import com.example.bizcardcomposecourse.noteapp.component.NoteInputText
 import com.example.bizcardcomposecourse.noteapp.data.NoteDataSource
 import com.example.bizcardcomposecourse.noteapp.model.Note
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,19 +128,25 @@ fun NoteRow(
             Text(text = note.title, style = MaterialTheme.typography.bodyLarge)
             Text(text = note.description, style = MaterialTheme.typography.bodyMedium)
             Text(
-                text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
+                text = formatDate(note.entryDate),
                 style = MaterialTheme.typography.labelMedium
             )
         }
     }
 }
 
-
 private fun isInputTextValueValid(value: String) = value.all { char ->
     char.isLetter() || char.isWhitespace()
 }
 
 private fun isSaveEnabled(vararg fields: String) = fields.all { it.isNotEmpty() }
+
+private fun formatDate(date: Date): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    return date.toInstant()
+        .atZone(ZoneId.systemDefault())
+        .format(formatter)
+}
 
 
 @Preview(showBackground = true)

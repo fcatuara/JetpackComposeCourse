@@ -16,7 +16,6 @@ import kotlin.time.ExperimentalTime
  *                     using LocalDateTime.now() if not provided.
  */
 @Entity(tableName = "notes_tbl")
-@OptIn(ExperimentalTime::class)
 data class Note(
     @PrimaryKey
     val id: UUID = UUID.randomUUID(),
