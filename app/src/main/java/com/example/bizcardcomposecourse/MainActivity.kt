@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.bizcardcomposecourse.noteapp.data.NoteDataSource
 import com.example.bizcardcomposecourse.noteapp.model.Note
 import com.example.bizcardcomposecourse.noteapp.screen.NoteHomeScreen
 import com.example.bizcardcomposecourse.noteapp.screen.NoteViewModel
@@ -32,11 +33,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NotesApp(viewModel: NoteViewModel = viewModel()) {
-    val noteList = viewModel.getAllNotes()
+    //val noteList = viewModel.getAllNotes()
+    val noteList = NoteDataSource().loadNotes()
     NoteHomeScreen(
         notes = noteList,
-        onAddNote = { viewModel.addNote(it) },
-        onRemoveNote = { viewModel.removeNote(it) }
+        onAddNote = { /*viewModel.addNote(it)*/ },
+        onRemoveNote = { /*viewModel.removeNote(it)*/ }
     )
 }
 
