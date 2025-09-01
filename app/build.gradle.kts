@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bizcardcomposecourse"
+    namespace = "com.example.composecourse"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.bizcardcomposecourse"
+        applicationId = "com.example.composecourse"
         minSdk = 28
         targetSdk = 36
         versionCode = 1

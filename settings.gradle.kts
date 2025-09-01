@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BizCardComposeCourse"
+rootProject.name = "Compose Course"
 include(":app")
  
