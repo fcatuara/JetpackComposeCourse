@@ -102,6 +102,10 @@ dependencies {
     implementation(libs.coroutines.android)
     implementation(libs.coroutines.play.services)
 
+    //Retrofit
+    implementation(libs.retofit)
+    implementation(libs.retofit.converter)
+
     //Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

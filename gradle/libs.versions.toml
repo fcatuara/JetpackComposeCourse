@@ -16,6 +16,7 @@ ksp = "2.2.0-2.0.2"
 hiltNavigationCompose = "1.2.0"
 room = "2.7.2"
 coroutines = "1.10.2"
+retrofit = "3.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android= { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-play-services= { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutines" }
+retofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
